@@ -10,6 +10,13 @@ size_t HuffmanNode::getFrequency() const
   return frequency;
 }
 
+void HuffmanNode::setFrequency(size_t s) {
+  this->frequency = s;
+}
+void HuffmanNode::setCharacter(char c) {
+  this->character = c;
+}
+
 bool HuffmanNode::isLeaf() const
 {
   return (left == nullptr && right == nullptr);

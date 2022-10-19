@@ -12,6 +12,9 @@ public:
 
   char getCharacter() const;
   size_t getFrequency() const;
+  /*need these come on...*/
+  void setCharacter(char c);
+  void setFrequency(size_t s);
 
   bool isLeaf() const;
   bool isBranch() const;
@@ -35,6 +38,33 @@ public:
   HuffmanNode *left;
   HuffmanNode *right;
 };
+
+/* SOLID PRINCPLES: BASE CLASSES ARE CLOSED FOR MODIFICATION AND OPEN FOR EXTENSION <3 */
+class LinkedHuffNode : public HuffmanNode {
+  public:
+  LinkedHuffNode * prev, * next;
+
+  
+  LinkedHuffNode(char c, size_t f, HuffmanNode *p, HuffmanNode *l, HuffmanNode *r) : HuffmanNode(c, f, p, l, r) {}
+  LinkedHuffNode(char c, size_t f) : HuffmanNode(c, f) {}
+  
+  LinkedHuffNode* getNext() { return  this->next; }
+
+  LinkedHuffNode* getPrev() { return  this->prev; }
+
+  bool hasPrev() { return !(this->prev == nullptr); }
+
+  bool hasNext(){ return  !(this->next == nullptr); }
+
+  void setPrev(LinkedHuffNode *p) {
+    this->prev = p;
+}
+  void setNext(LinkedHuffNode *n) {
+    this->next = n;
+}
+
+};
+
 
 class HuffmanTreeBase {
   public:
