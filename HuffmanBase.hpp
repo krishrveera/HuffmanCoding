@@ -45,8 +45,12 @@ class LinkedHuffNode : public HuffmanNode {
   LinkedHuffNode * prev, * next;
 
   
-  LinkedHuffNode(char c, size_t f, HuffmanNode *p, HuffmanNode *l, HuffmanNode *r) : HuffmanNode(c, f, p, l, r) {}
-  LinkedHuffNode(char c, size_t f) : HuffmanNode(c, f) {}
+  LinkedHuffNode(char c, size_t f, HuffmanNode *p, HuffmanNode *l, HuffmanNode *r) : HuffmanNode(c, f, p, l, r) {
+    this->prev=nullptr; this->next= nullptr;
+  }
+  LinkedHuffNode(char c, size_t f) : HuffmanNode(c, f) {
+    this->prev=nullptr; this->next= nullptr;
+  }
   
   LinkedHuffNode* getNext() { return  this->next; }
 

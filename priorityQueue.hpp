@@ -15,6 +15,7 @@ class HuffmanPQ {
     
     LinkedHuffNode * head,* tail;
     size_t length;
+    HuffmanNode::Compare cmp;
 
     void link(LinkedHuffNode* a, LinkedHuffNode* b) {
     /*This process puts node a's next to b, and b's prev to a*/
@@ -62,7 +63,7 @@ class HuffmanPQ {
         }   
         else if(this->tail == this->head) {
 
-            if (this->head->getFrequency() > dataPtr->getFrequency()) { // HEAD has less priority, swap them
+            if (!this->cmp(((HuffmanNode*)this->head), (HuffmanNode*)dataPtr ) ) { // HEAD has less priority, swap them
                 /*Create Linkage*/
                 this->link(dataPtr, this->head);
 
@@ -83,7 +84,7 @@ class HuffmanPQ {
                 Our list has multiple nodes, back->front approach until we find our insertion spot
             */
             LinkedHuffNode *current = this->tail;
-            while(dataPtr->getFrequency() < current->getFrequency() && insertion==false) {
+            while( ! this->cmp((HuffmanNode*)current, (HuffmanNode*)dataPtr) && insertion==false) {
                 //Our current node has not found the right insertion spot, and we haven't reached the end of the list
                 if (current != this->head) { 
 

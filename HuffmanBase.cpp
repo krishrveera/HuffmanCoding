@@ -35,7 +35,18 @@ bool HuffmanNode::isRoot() const
 bool HuffmanNode::Compare::operator()(const HuffmanNode &n1, const HuffmanNode &n2) const
 {
   if (n1.frequency == n2.frequency) {
+    // if (lessThan) {
+    //   if (n1.character >= 'A' && n2.character >= 'A') {
+    //     return n1.character > n2.character;
+    //   }
+    //   else {
+    //     if (n1.character >= 'A') return 0;
+    //     else if(n2.character >='A') return 1;
+    //     return n1.character < n2.character;
+    //   }
+    // }
     return lessThan ? n1.character < n2.character : n1.character >= n2.character;
+
   } else {
     return lessThan ? n1.frequency < n2.frequency : n1.frequency >= n2.frequency;
   }
