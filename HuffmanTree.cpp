@@ -6,7 +6,7 @@
 #include "Deque.hpp"
 #include <assert.h>  
 
-#define DEBUG 1
+// #define DEBUG 1
 
 Huffman::Huffman() {}
 
@@ -65,7 +65,7 @@ std::string Huffman::compress(const std::string inputStr) {
 
     this->root = pq.min();
     std::string returnString;
-    std::cout<<"\n\nCodes:::";
+    // std::cout<<"\n\nCodes:::";
     // for (auto& pair : bit_keys) {
     //     std::cout<< pair.first << ": " << pair.second << ";";
     // }
@@ -140,10 +140,10 @@ std::string Huffman::decompress(const std::string inputCode, const std::string s
             curr = this->root;
         }
         else {
-            if (inputCode[i] == '1') {
+            if (inputCode[i] == '0') {
                 curr = curr->right;
             }
-            else if(inputCode[i]=='0') {
+            else if(inputCode[i]=='1') {
                 curr = curr->left;
             }
         }
