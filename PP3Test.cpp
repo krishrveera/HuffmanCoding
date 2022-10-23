@@ -22,7 +22,7 @@
 // const std::string constitution constitutionCode  constitutionTree
 
 TEST_CASE("Project 4 Test Cases for Huffman Coding") {
-  HuffmanTree t;
+  Huffman t;
 
   // Turing String Tests
   SECTION("Should compress the turing string") {

@@ -1,4 +1,4 @@
-#include "Huffman.hpp"
+#include "HuffmanTree.hpp"
 #include <iostream>
 
 int main(void) {
@@ -6,7 +6,7 @@ int main(void) {
     Huffman hmn;
 
     std::cout<<hmn.compress("if a machine is expected to be infallible it cannot also be intelligent")<<std::endl;
-    std::cout<<hmn.serializeTree()<<std::endl;
+    // std::cout<<hmn.decompress(,"LiLmLnBBLrLaBLtBBLPLdBLgLkBBLALIBLvLxBBBLhLlBLCLSBBBLsLpLfBBLoBBL LeLcLuLyBBBBBB")<<std::endl;
     return 0;
 }
 
