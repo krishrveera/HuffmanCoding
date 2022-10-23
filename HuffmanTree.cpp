@@ -6,14 +6,20 @@
 #include "Deque.hpp"
 #include <assert.h>  
 
-// #define DEBUG 1
-
 Huffman::Huffman() {}
 
 std::string Huffman::find(char a) {
     return this->pFind(a, "", this->root);
 }
 
+/**
+ * @brief Recursive function to return the path to a character on the tree
+ * 
+ * @param a 
+ * @param path 
+ * @param curr 
+ * @return std::string 
+ */
 std::string Huffman::pFind(char a, std::string path, HuffmanNode* curr) {
     if (curr->getCharacter() == a) {
         return path;
@@ -26,6 +32,13 @@ std::string Huffman::pFind(char a, std::string path, HuffmanNode* curr) {
     }
 }
 
+/**
+* @brief finds a key 
+*
+* @param hmk
+* @param key
+*/
+
 HuffmanKey::iterator find_key(HuffmanKey& hmk, char key) {
     for (auto pair = hmk.begin(); pair != hmk.end(); ++pair ) {
         if (pair->first == key)
@@ -33,6 +46,12 @@ HuffmanKey::iterator find_key(HuffmanKey& hmk, char key) {
     }
     return hmk.end();
 }
+
+/**
+*@brief compresses the string inputted 
+*
+*@param std::string inputStr
+*/
 
 
 std::string Huffman::compress(const std::string inputStr) {
@@ -105,6 +124,13 @@ std::string Huffman::p_serializeTree(HuffmanNode* const curr) const {
     }
 }
 
+/**
+* @brief decompressing algorithm 
+*
+* @param inputCode fdeikjhwdb
+* @param serializedTree dsvjhvbs
+*/
+
 std::string Huffman::decompress(const std::string inputCode, const std::string serializedTree) {
     Deque<HuffmanNode> nodeStack;
 
@@ -160,7 +186,11 @@ std::string Huffman::decompress(const std::string inputCode, const std::string s
     return returnString;
 }
 
-
+/**
+* @brief creates a frequency map for a character
+*
+* @param inStr
+*/
 std::map<char, size_t> Huffman::parse(const std::string inStr) {
     std::map<char, size_t> freqParser;
     for (int i = 0; i < inStr.size(); i++) {

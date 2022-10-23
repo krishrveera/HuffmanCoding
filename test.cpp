@@ -5,8 +5,8 @@ int main(void) {
 
     Huffman hmn;
 
-    std::cout<<hmn.compress("if a machine is expected to be infallible it cannot also be intelligent")<<std::endl;
-    // std::cout<<hmn.decompress(,"LiLmLnBBLrLaBLtBBLPLdBLgLkBBLALIBLvLxBBBLhLlBLCLSBBBLsLpLfBBLoBBL LeLcLuLyBBBBBB")<<std::endl;
+    std::cout<<hmn.compress("Bif a machine is expected to be infallible it cannot also be intelligent")<<std::endl;
+    std::cout<<hmn.find('B')<<std::endl;
     return 0;
 }
 
