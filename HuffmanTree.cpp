@@ -135,17 +135,15 @@ std::string Huffman::decompress(const std::string inputCode, const std::string s
     std::string returnString = "";
     HuffmanNode* curr = this->root;
     for (int i =0; i < inputCode.size(); i++) {
+        if (inputCode[i] == '1') {
+                curr = curr->right;
+            }
+        else if(inputCode[i]=='0') {
+                curr = curr->left;
+        }
         if (curr->isLeaf()) {
             returnString+= curr->getCharacter();
             curr = this->root;
-        }
-        else {
-            if (inputCode[i] == '0') {
-                curr = curr->right;
-            }
-            else if(inputCode[i]=='1') {
-                curr = curr->left;
-            }
         }
     }
 
