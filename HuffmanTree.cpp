@@ -2,7 +2,9 @@
 #include "HuffmanTree.hpp"
 #include <iostream>
 #include <sstream>
+#include "HeapQueue.hpp"
 #include "Deque.hpp"
+#include <assert.h>  
 
 #define DEBUG 1
 
@@ -35,33 +37,33 @@ HuffmanKey::iterator find_key(HuffmanKey& hmk, char key) {
 
 std::string Huffman::compress(const std::string inputStr) {
     std::map<char, size_t> s = this->parse(inputStr);
-    HuffmanPQ *pq = new HuffmanPQ();
-    std::cout<<"Frequencies:::";
+    HeapQueue<HuffmanNode*, HuffmanNode::Compare> pq;
     for (auto pair = s.begin(); pair != s.end(); ++pair ) {
-        pq->pushRight(new LinkedHuffNode(pair->first, pair->second));
+        pq.insert(new HuffmanNode(pair->first, pair->second));
         std::cout<< pair->first << ": " << pair->second << ";";
     }
 
     std::map<char, std::string> bit_keys;
-    while(pq->getLength() > 1) {
+    while(pq.size() > 1) {
         // std::cout<<pq<<std::endl;
-        LinkedHuffNode* l = pq->pop();
-        LinkedHuffNode* r = pq->pop();
-    
-        LinkedHuffNode * p = new LinkedHuffNode('\0', l->getFrequency() + r->getFrequency()); 
+        HuffmanNode* l = pq.min();
+        pq.removeMin();
+        HuffmanNode* r = pq.min();
+        pq.removeMin();
+        HuffmanNode * p = new HuffmanNode('\0', l->getFrequency() + r->getFrequency()); 
         p->left = l; p->right = r; r->parent = p; l->parent = p;
         if(bit_keys.find(r->getCharacter()) == bit_keys.end()) 
             bit_keys[r->getCharacter()] = "";
         if(bit_keys.find(l->getCharacter()) == bit_keys.end()) 
             bit_keys[l->getCharacter()] = "";
           
-        populate_bit_keys(bit_keys, "0",(HuffmanNode*) l);
-        populate_bit_keys(bit_keys, "1",(HuffmanNode*) r);
+        populate_bit_keys(bit_keys, "0", l);
+        populate_bit_keys(bit_keys, "1", r);
 
-        pq->pushRight(p);
+        pq.insert(p);
     }
 
-    this->root = pq->pop();
+    this->root = pq.min();
     std::string returnString;
     std::cout<<"\n\nCodes:::";
     // for (auto& pair : bit_keys) {
@@ -69,9 +71,9 @@ std::string Huffman::compress(const std::string inputStr) {
     // }
     std::cout<<'\n';
     for (int i=0; i<inputStr.length(); i++) {
-        returnString+= this->find(inputStr[i]);
+        returnString+= bit_keys.find(inputStr[i])->second;
     }
-    delete pq;
+    // delete pq;
     return returnString;
 }
 
@@ -106,7 +108,7 @@ std::string Huffman::p_serializeTree(HuffmanNode* const curr) const {
 std::string Huffman::decompress(const std::string inputCode, const std::string serializedTree) {
     Deque<HuffmanNode> nodeStack;
 
-    for (int i =0; i < serializedTree.size(); i++) {
+    for (int i = 0; i < serializedTree.size(); i++) {
         if (serializedTree[i] == 'B') {
             HuffmanNode* right = nodeStack.popLeft();
             HuffmanNode* left = nodeStack.popLeft();
@@ -114,13 +116,22 @@ std::string Huffman::decompress(const std::string inputCode, const std::string s
             right->parent = parent; left->parent = parent;
             nodeStack.pushLeft(parent);
         }
-        else {
+        else { //"L{Char}"
             i++;
            nodeStack.pushLeft(new HuffmanNode(serializedTree[i], 0));
         }
     }
 
     this->root = nodeStack.popLeft();
+
+    #ifdef DEBUG
+    assert(nodeStack.isEmpty());
+    #endif
+
+    #ifdef DEBUG
+    assert(this->serializeTree() == serializedTree);
+    #endif
+    
     std::string returnString = "";
     HuffmanNode* curr = this->root;
     for (int i =0; i < inputCode.size(); i++) {
@@ -132,13 +143,19 @@ std::string Huffman::decompress(const std::string inputCode, const std::string s
             if (inputCode[i] == '1') {
                 curr = curr->right;
             }
-            else {
+            else if(inputCode[i]=='0') {
                 curr = curr->left;
             }
         }
     }
+
+    #ifdef DEBUG
+    std::cout<< returnString<<std::endl;
+    assert(curr == this->root);
+    #endif
+
     if (curr->isLeaf()) {
-            returnString+= curr->getCharacter();
+        returnString+= curr->getCharacter();
     } 
     
 
