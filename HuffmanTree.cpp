@@ -71,10 +71,10 @@ std::string Huffman::compress(const std::string inputStr) {
         pq.removeMin(); 
         HuffmanNode * p = new HuffmanNode('\0', l->getFrequency() + r->getFrequency()); // the new huffman node of the summed frequency of the two characters of the lowest frequency is being added back to the huffman tree after removing the said characters
         p->left = l; p->right = r; r->parent = p; l->parent = p; // a branch is being created of the two characters with the lowest frequency 
-        if(bit_keys.find(r->getCharacter()) == bit_keys.end()) // ?
-            bit_keys[r->getCharacter()] = ""; // ?
-        if(bit_keys.find(l->getCharacter()) == bit_keys.end()) // ?
-            bit_keys[l->getCharacter()] = ""; // ?
+        if(bit_keys.find(r->getCharacter()) == bit_keys.end()) 
+            bit_keys[r->getCharacter()] = ""; 
+        if(bit_keys.find(l->getCharacter()) == bit_keys.end()) 
+            bit_keys[l->getCharacter()] = ""; 
           
         populate_bit_keys(bit_keys, "0", l); // bit_keys is being populated with a 0 since the character was alloted the left branch
         populate_bit_keys(bit_keys, "1", r); // bit_keys is being populated with a 1 since the character was alloted the right branch
@@ -82,7 +82,7 @@ std::string Huffman::compress(const std::string inputStr) {
         pq.insert(p); // the parent node is being added to the priority queue
     }
 
-    this->root = pq.min(); // ?
+    this->root = pq.min(); 
     std::string returnString; 
     // std::cout<<"\n\nCodes:::";
     // for (auto& pair : bit_keys) {
@@ -98,11 +98,11 @@ std::string Huffman::compress(const std::string inputStr) {
 
 void Huffman::populate_bit_keys(std::map<char, std::string> &bit_keys, std::string dir, HuffmanNode* curr) {
     if (curr == nullptr) return;
-    if (curr->isLeaf()) { // ?
+    if (curr->isLeaf()) { 
         auto elem = bit_keys.find(curr->getCharacter());
         elem->second = dir + elem->second;
     }
-    else { // ? I know this branches to the left or right if the current is detected not to be a leaf
+    else { 
         populate_bit_keys(bit_keys, dir, curr->left);
         populate_bit_keys(bit_keys, dir, curr->right);
     }
@@ -151,11 +151,11 @@ std::string Huffman::decompress(const std::string inputCode, const std::string s
     this->root = nodeStack.popLeft();
 
     #ifdef DEBUG
-    assert(nodeStack.isEmpty()); // ? what is assert?
+    assert(nodeStack.isEmpty()); /
     #endif
 
     #ifdef DEBUG
-    assert(this->serializeTree() == serializedTree); // ?
+    assert(this->serializeTree() == serializedTree); 
     #endif
     
     // decompressing logic when to go right and left
@@ -176,19 +176,19 @@ std::string Huffman::decompress(const std::string inputCode, const std::string s
 
     #ifdef DEBUG
     std::cout<< returnString<<std::endl;
-    assert(curr == this->root); // ?
+    assert(curr == this->root); 
     #endif
 
     if (curr->isLeaf()) {
         returnString+= curr->getCharacter();
-    }  // ?
+    }  
     
 
     return returnString;
 }
 
 /**
-* @brief creates a frequency map for a character
+* @brief creates a frequency map for a string
 *
 * @param inStr
 */
